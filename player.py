@@ -25,3 +25,6 @@ class Player:
 
     def get_room(self):
          return world_map[self.y][self.x]
+
+    def check_inventory(self):
+        pass
