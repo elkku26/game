@@ -3,10 +3,16 @@ import items
 import time
 import worldMap
 from player import Player
-Player = Player()
 #While using move, DX comes before DY
-worldMap.Startroom.intro_text()
-this_again = False
+Player = Player()
+
+
+#Starts the game
+#The player stays in this loop until they move
+#-----------------------------------------------------------------------------------------------------------------------------------#
+#Removed temporarily
+#worldMap.Startroom.intro_text()
+
 def play():
     while True:
         action = input("").lower()
@@ -36,6 +42,7 @@ def play():
                     play()
 
                 return ''
+
             if action in ["east", "e"]:
                 Player.move(1, 0)
                 if worldMap.tile_at(Player.x, Player.y) is None:
@@ -46,6 +53,7 @@ def play():
                     play()
 
                 return ''
+
             if action in ["west", "w"]:
                 Player.move(-1, 0)
                 if worldMap.tile_at(Player.x, Player.y) is None:
@@ -70,7 +78,7 @@ def play():
 
         if action in ["inventory", "belongings", "examine inventory", "examine belongings", "check inventory", "check belongings"]:
             for i in Player.inventory:
-                worldMap.s_print(i.__str__())
+                worldMap.s_print("* " + i.__str__())
             worldMap.s_print("What will you do?")
             play()
 
@@ -78,14 +86,16 @@ def play():
         for i in Player.inventory:
             if action == i.name.lower() + ' info':
                 worldMap.s_print(i.description)
-        worldMap.s_print("What is your next move?")
+        worldMap.s_print("What will you do next?")
 
         play()
-
+#IMPORTANT NOTE:
+#Because most rooms are placeholders you can't move there yet.
+#--------------------------------------------------------------------------------------------------------------------------------------#
+def play_secretroom():
+    pass
 
 
 play()
+print(Player.y)
 
-print(Player.get_location())
-print(Player.get_room())
-print(worldMap.StartRoom)
