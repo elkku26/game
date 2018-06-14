@@ -3,6 +3,7 @@ import items
 import time
 import worldMap
 from player import Player
+import player
 #While using move, DX comes before DY
 Player = Player()
 
@@ -12,7 +13,7 @@ Player = Player()
 #-----------------------------------------------------------------------------------------------------------------------------------#
 #Removed temporarily
 #worldMap.Startroom.intro_text()
-
+print("Startcoordinates: {},{}".format(Player.x, Player.y))
 def play():
     while True:
         action = input("").lower()
@@ -23,19 +24,22 @@ def play():
 
             if action in ["north", "n"]:
                 Player.move(0, -1)
+                print("Coordinates: {},{}".format(Player.x, Player.y))
                 if worldMap.tile_at(Player.x, Player.y) is None:
                     Player.move(0, 1)
+                    print("Coordinates: {},{}".format(Player.x, Player.y))
                     worldMap.s_print("That's a wall. Try again.")
                     time.sleep(0.5)
                     worldMap.s_print("What will you do?")
                     play()
-
                 return ''
 
             if action in ["south", "s"]:
                 Player.move(0, 1)
+                print("Coordinates: {},{}".format(Player.x, Player.y))
                 if worldMap.tile_at(Player.x, Player.y) is None:
                     Player.move(0, -1)
+                    print("Coordinates: {},{}".format(Player.x, Player.y))
                     worldMap.s_print("That's a wall. Try again")
                     time.sleep(0.5)
                     worldMap.s_print("What will you do?")
@@ -45,8 +49,10 @@ def play():
 
             if action in ["east", "e"]:
                 Player.move(1, 0)
+                print("Coordinates: {},{}".format(Player.x, Player.y))
                 if worldMap.tile_at(Player.x, Player.y) is None:
                     Player.move(-1, 0)
+                    print("Coordinates: {},{}".format(Player.x, Player.y))
                     worldMap.s_print("That's a wall. Try again.")
                     time.sleep(0.5)
                     worldMap.s_print("What will you do?")
@@ -56,8 +62,10 @@ def play():
 
             if action in ["west", "w"]:
                 Player.move(-1, 0)
+                print("Coordinates: {},{}".format(Player.x, Player.y))
                 if worldMap.tile_at(Player.x, Player.y) is None:
                     Player.move(1, 0)
+                    print("Coordinates: {},{}".format(Player.x, Player.y))
                     worldMap.s_print("That's a wall. Try again.")
                     time.sleep(0.5)
                     worldMap.s_print("What will you do?")
@@ -69,33 +77,20 @@ def play():
             worldMap.Startroom.description()
 
         if action in ["examine me", "examine self", "me", "self", "status"]:
-            if Player.health > 15 or Player.health == 15:
-                worldMap.s_print("You're slightly confused, but you aren't really hurt at all. You can definitely manage like this.")
-            if 10 < Player.health < 15:
-                worldMap.s_print("You're feeling pretty bad. You can't survive long like this.")
-            if Player.health < 10 or Player.health == 10:
-                worldMap.s_print("You're in critical condition. You need help soon, or you'll perish.")
+            Player.check_condition()
+
 
         if action in ["inventory", "belongings", "examine inventory", "examine belongings", "check inventory", "check belongings"]:
-            for i in Player.inventory:
-                worldMap.s_print("* " + i.__str__())
-            worldMap.s_print("What will you do?")
+            Player.check_inventory()
             play()
 
-
-        for i in Player.inventory:
-            if action == i.name.lower() + ' info':
-                worldMap.s_print(i.description)
-        worldMap.s_print("What will you do next?")
 
         play()
 #IMPORTANT NOTE:
 #Because most rooms are placeholders you can't move there yet.
-#--------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------#
 def play_secretroom():
     pass
 
 
 play()
-print(Player.y)
-
